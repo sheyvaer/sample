@@ -1,0 +1,52 @@
+This code was written originally for a test with a very simple assignment: write 
+a small application that calculates the similarity between two arbitrary Twitter 
+users, using the Twitter API.
+ 
+
+The program uses the Java Twitter API provided by jtwitter (included in the
+lib directory and available from winterwell http://www.winterwell.com/software/jtwitter.php).
+
+The program is revaltively simple. It calculates the overall similarity between
+two Twitter users by computing and multiplying together individual similarity
+scores for various attributes. The individual scores are these:
+
+- the Jaccard similarity coefficient between the users each of them is following
+  ("friends")
+- the Jaccard similarity coefficient between the users that follow each of them
+  ("followers")
+
+The idea behind the above is that users who follow and are followed by the same
+users must have something in common. To these are added four text-based
+similarity scores calculated against the following attributes:
+
+- biographies (descriptions)
+- mentions (these are other users or topic called out explicitly by the @ or #
+  mark inside messages (I'm actually not sure about the # mark)
+- users' favorite tweets
+- users' regular tweets
+
+Prior to the calculation, stopwords are removed from the text. I also toyed
+with the idea of stemming the text (and included in the code a Porter stemmer
+I wrote years ago for a different exercise), but ended up not doing it
+primarily because I had insufficient time to compare the results with and
+without stemming.
+
+For the text similarity calculation I use a "pseudo"-cosine metric, which is
+like the Jaccard coefficient a division of the size of the intersection by the
+size of the union of the elements, but different from it in that it takes into
+account the actual frequency of each element in each list rather than just its
+occurrence. Thus, the similarity between "abc abc" and "abc" will only be 0.5
+and not 1.0 (as it would with the Jaccard coefficient).
+
+I used this metric to approximate a vector-based environment, which I did not
+think would be useful to implement in full. Likewise, I did not use a library
+such as Lucene to index the individual text pieces, because the amount of text
+is likely to be small and TF/IDF weighting unlikely to make much difference.
+
+All the individual simlarity scores are given equal weight. Experiments or
+better knowledge of Twitter should make it possible to assign each a different
+weight and thus obtain perhaps a more reliable overall score.
+
+I added unit tests (source included) for the utility functions of my program
+and used the debugger to step through the program and collect information for
+some real users (primarily to inspect what was available).
