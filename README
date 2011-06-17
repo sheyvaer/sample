@@ -6,7 +6,7 @@ users, using the Twitter API.
 The program uses the Java Twitter API provided by jtwitter (included in the
 lib directory and available from winterwell http://www.winterwell.com/software/jtwitter.php).
 
-The program is revaltively simple. It calculates the overall similarity between
+The program is relatively simple. It calculates the overall similarity between
 two Twitter users by computing and multiplying together individual similarity
 scores for various attributes. The individual scores are these:
 
